@@ -1,0 +1,175 @@
+[build]
+  publish = "."
+
+# ---------- funções do servidor: o Assistente SR Phone com IA e o cálculo de entrega ----------
+# netlify/functions/assistente.mjs responde em /api/assistente, netlify/functions/entrega.mjs em
+# /api/entrega e netlify/functions/agendamento.mjs em /api/agendamento (o endereço está em cada
+# arquivo). As chaves ficam SÓ nas variáveis de ambiente do Netlify (AI_API_KEY, MAPS_SERVER_KEY,
+# MAPS_BROWSER_KEY, SUPABASE_SECRET_KEY e TURNSTILE_SECRET_KEY), nunca no site.
+# Funções só são publicadas por Git (deploy contínuo) ou pelo Netlify CLI; arrastar a pasta
+# para o painel (Netlify Drop) publica só o site, e aí o chat usa o cérebro local e a entrega
+# oferece a retirada e o WhatsApp.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # os dados oficiais (loja, catálogo, regras de preço e DELIVERY_CONFIG) vão junto com as funções
+  included_files = ["data/config.js", "data/products.js", "js/precos.js"]
+
+# A Netlify já responde 404.html com status HTTP 404 automaticamente.
+# Mantenha os cabeçalhos IGUAIS aos do arquivo _headers ("npm run lint" confere).
+
+# ---------- endereços ----------
+# Pastas e arquivos de trabalho do projeto não vão para o visitante (respondem 404).
+[[redirects]]
+  from = "/ferramentas/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/docs/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/supabase/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/node_modules/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/LEIA-ME.txt"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/CHECKLIST-PRODUCAO.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/AUDITORIA-FINAL-SRPHONE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/package.json"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/.env.example"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/services/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/GUIA-MODELO-3D-SRPHONE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/ASSISTENTE-SRPHONE-FINAL.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/ENTREGA-SRPHONE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/PRODUCAO-SRPHONE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/AUDITORIA-PRODUCAO-SRPHONE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/SEGURANCA-E-PAINEL-FUNCIONARIO.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Mascote: sem um GLB de artista (srphone-assistant.glb, opcional) na pasta, o site recebe no lugar
+# dele um aviso pequeno (sem erro 404 no console) e mostra o mascote 3D da marca (feito no código).
+# Sem "force": quando o arquivo existir, ele é entregue normalmente e esta regra não vale.
+[[redirects]]
+  from = "/assets/modelos/srphone-assistant.glb"
+  to = "/assets/modelos/sem-modelo.json"
+  status = 200
+
+# Produto novo que ainda não ganhou a página própria (produto/<id>/, criada pelo "npm run build"):
+# a Netlify manda para o início, que abre o produto. Página existente sempre tem prioridade.
+[[redirects]]
+  from = "/produto/:id/"
+  to = "/?produto=:id"
+  status = 302
+[[redirects]]
+  from = "/produto/:id"
+  to = "/?produto=:id"
+  status = 302
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://tile.googleapis.com; media-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'wasm-unsafe-eval' https://www.googletagmanager.com https://challenges.cloudflare.com; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co https://tile.googleapis.com; frame-src https://www.google.com https://www.youtube-nocookie.com https://challenges.cloudflare.com; manifest-src 'self'; object-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(self), microphone=(), camera=(), payment=(), usb=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+# Área da Equipe: fora dos buscadores e nunca guardada em cache (nem no navegador, nem no caminho).
+# Esconder o endereço não é a proteção: quem protege os dados é o banco (login + funcionarios + RLS).
+[[headers]]
+  for = "/funcionario/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

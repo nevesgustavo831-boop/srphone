@@ -1,0 +1,29 @@
+# Cabeçalhos de segurança (Netlify e Cloudflare Pages). Mantenha IGUAL ao netlify.toml
+# ("npm run lint" confere). Script embutido no HTML é bloqueado de propósito:
+# todo JavaScript fica nos arquivos de js/ e data/.
+/*
+  Content-Security-Policy: default-src 'none'; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://tile.googleapis.com; media-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'wasm-unsafe-eval' https://www.googletagmanager.com https://challenges.cloudflare.com; connect-src 'self' blob: https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.supabase.co https://tile.googleapis.com; frame-src https://www.google.com https://www.youtube-nocookie.com https://challenges.cloudflare.com; manifest-src 'self'; object-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self), microphone=(), camera=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Área da Equipe: fora dos buscadores e sem cache. Quem protege os dados é o banco, não o endereço.
+/funcionario/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+
+# imagens, vídeos e ícones: guardados por 1 hora e depois conferidos com o servidor.
+# Assim, uma foto trocada com o mesmo nome aparece nova em até 1 hora (melhor ainda: use um nome novo).
+/assets/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# código e dados: sempre conferidos com o servidor, para a mudança aparecer na hora
+/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+/data/*
+  Cache-Control: public, max-age=0, must-revalidate

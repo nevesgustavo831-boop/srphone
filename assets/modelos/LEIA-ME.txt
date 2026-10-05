@@ -1,0 +1,22 @@
+MASCOTE 3D DO ASSISTENTE SR PHONE
+==================================
+
+O mascote do site é o 3D da marca, feito no código (js/mascote3d.js): o iPhone preto de moldura
+cobre, a câmera tripla, o chapéu fedora com faixa cobre, o monóculo e o bigode da arte da loja,
+com braços, mãos, pernas e sapatos, e 11 gestos. Ele não precisa de nenhum arquivo nesta pasta.
+
+GLB de artista (OPCIONAL)
+Se um dia a loja tiver um modelo feito por um artista 3D, coloque aqui o arquivo:
+    srphone-assistant.glb
+O site procura esse arquivo sozinho. Com ele, aparece o GLB, com as animações dele.
+Sem ele, fica o mascote da marca. O site nunca quebra.
+
+Depois de colocar o arquivo, rode:
+  npm run build            (confere formato, tamanho, extensões e quais animações existem)
+  npm run mascote:imagem   (refaz a imagem parada do mascote a partir do modelo novo)
+
+O arquivo sem-modelo.json desta pasta é o aviso que o site recebe enquanto não há GLB
+(o netlify.toml entrega esse aviso no lugar do GLB, sem erro 404). Não apague.
+
+Como um GLB precisa ser feito (proporções, materiais, ossos, animações, nomes, escala,
+exportação e compressão): GUIA-MODELO-3D-SRPHONE.md, na pasta principal do projeto.

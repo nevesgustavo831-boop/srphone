@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#0e0a08">
+<title>Área da Equipe | SR Phone</title>
+<link rel="icon" href="/assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="icon" href="/assets/icons/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/icons/icon-180.png">
+<script src="/js/boot.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" media="print" data-fontes>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="/css/funcionario.css">
+<script src="/data/config.js" defer></script>
+<script src="/js/funcionario.js" defer></script>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="eq-topo">
+  <a class="eq-marca" href="/" aria-label="SR Phone, voltar para o site">
+    <img src="/assets/icons/logo-96.png" srcset="/assets/icons/logo-96.png 1x, /assets/icons/logo-192.png 2x" width="40" height="40" alt="">
+    <span><b>SR PHONE</b><small>Área da Equipe</small></span>
+  </a>
+  <div class="eq-usuario" id="eq-usuario" hidden>
+    <span class="eq-ola" id="eq-ola"></span>
+    <button class="eq-btn eq-btn-sec eq-btn-peq" id="eq-sair" type="button">Sair</button>
+  </div>
+</header>
+
+<main class="eq-main" id="conteudo">
+  <noscript><p class="eq-cartao">A Área da Equipe precisa do JavaScript ligado no navegador.</p></noscript>
+
+  <p class="eq-carregando" id="eq-carregando" role="status">Carregando…</p>
+
+  <!-- agenda online desligada (data/config.js sem SUPABASE_URL / chave pública) -->
+  <section class="eq-cartao" id="eq-sem-config" hidden aria-labelledby="eq-sem-config-t">
+    <h1 id="eq-sem-config-t">Agenda online desligada</h1>
+    <p>A agenda online ainda não foi ligada neste site. Enquanto isso, os pedidos de horário chegam pelo WhatsApp da loja.</p>
+  </section>
+
+  <!-- login: só e-mail e senha. Não existe cadastro pelo site. -->
+  <section class="eq-cartao" id="eq-login" hidden aria-labelledby="eq-login-t">
+    <h1 id="eq-login-t"><span>SR PHONE</span>Área da Equipe</h1>
+    <form id="eq-form-login" novalidate>
+      <label for="eq-email">E-mail</label>
+      <input id="eq-email" type="email" autocomplete="username" inputmode="email" maxlength="254" required>
+      <label for="eq-senha">Senha</label>
+      <input id="eq-senha" type="password" autocomplete="current-password" maxlength="200" required>
+      <div class="eq-robo" id="eq-robo-login" hidden></div>
+      <p class="eq-erro" id="eq-erro-login" role="alert" hidden></p>
+      <p class="eq-ok" id="eq-ok-login" role="status" hidden></p>
+      <button class="eq-btn eq-btn-pri" id="eq-entrar" type="submit">Entrar</button>
+      <button class="eq-link" id="eq-esqueci" type="button">Esqueci minha senha</button>
+    </form>
+    <p class="eq-dica">Acesso só para a equipe da SR Phone. Não existe cadastro pelo site: a conta é criada pela administração da loja.</p>
+  </section>
+
+  <!-- esqueci minha senha -->
+  <section class="eq-cartao" id="eq-recuperar" hidden aria-labelledby="eq-recuperar-t">
+    <h1 id="eq-recuperar-t">Esqueci minha senha</h1>
+    <p>Digite o e-mail da sua conta. Se ele estiver cadastrado, chega um link para criar uma senha nova.</p>
+    <form id="eq-form-recuperar" novalidate>
+      <label for="eq-rec-email">E-mail</label>
+      <input id="eq-rec-email" type="email" autocomplete="username" inputmode="email" maxlength="254" required>
+      <div class="eq-robo" id="eq-robo-recuperar" hidden></div>
+      <p class="eq-erro" id="eq-erro-recuperar" role="alert" hidden></p>
+      <p class="eq-ok" id="eq-ok-recuperar" role="status" hidden></p>
+      <button class="eq-btn eq-btn-pri" id="eq-rec-enviar" type="submit">Enviar link</button>
+      <button class="eq-link" id="eq-rec-voltar" type="button">Voltar para o login</button>
+    </form>
+  </section>
+
+  <!-- senha nova (link do e-mail de convite ou de "esqueci minha senha") -->
+  <section class="eq-cartao" id="eq-nova-senha" hidden aria-labelledby="eq-nova-senha-t">
+    <h1 id="eq-nova-senha-t">Criar senha nova</h1>
+    <form id="eq-form-nova" novalidate>
+      <label for="eq-nova1">Senha nova</label>
+      <input id="eq-nova1" type="password" autocomplete="new-password" minlength="8" maxlength="200" required aria-describedby="eq-nova-dica">
+      <p class="eq-dica" id="eq-nova-dica">Pelo menos 8 caracteres, com letras e números.</p>
+      <label for="eq-nova2">Repita a senha nova</label>
+      <input id="eq-nova2" type="password" autocomplete="new-password" minlength="8" maxlength="200" required>
+      <p class="eq-erro" id="eq-erro-nova" role="alert" hidden></p>
+      <button class="eq-btn eq-btn-pri" id="eq-nova-salvar" type="submit">Salvar senha</button>
+    </form>
+  </section>
+
+  <!-- verificação em duas etapas (MFA do Supabase Auth, código do app autenticador) -->
+  <section class="eq-cartao" id="eq-mfa" hidden aria-labelledby="eq-mfa-t">
+    <h1 id="eq-mfa-t">Verificação em duas etapas</h1>
+    <div id="eq-mfa-cadastro" hidden>
+      <p>Para proteger a conta, ligue o código de 6 dígitos. Instale um app autenticador no celular (Google Authenticator, Microsoft Authenticator ou outro), toque em adicionar conta e aponte a câmera para o código abaixo.</p>
+      <img class="eq-qr" id="eq-mfa-qr" alt="Código QR para o app autenticador" width="200" height="200">
+      <p class="eq-dica">Sem câmera? Digite esta chave no app: <code class="eq-segredo" id="eq-mfa-segredo"></code></p>
+    </div>
+    <p id="eq-mfa-pede">Abra o app autenticador e digite o código de 6 dígitos da SR Phone.</p>
+    <form id="eq-form-mfa" novalidate>
+      <label for="eq-mfa-codigo">Código de 6 dígitos</label>
+      <input id="eq-mfa-codigo" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+      <p class="eq-erro" id="eq-erro-mfa" role="alert" hidden></p>
+      <button class="eq-btn eq-btn-pri" id="eq-mfa-ok" type="submit">Confirmar</button>
+      <button class="eq-link" id="eq-mfa-voltar" type="button" hidden>Agora não</button>
+      <button class="eq-link" id="eq-mfa-sair" type="button">Sair da conta</button>
+    </form>
+  </section>
+
+  <!-- entrou no Supabase, mas não está liberado na equipe -->
+  <section class="eq-cartao" id="eq-sem-acesso" hidden aria-labelledby="eq-sem-acesso-t">
+    <h1 id="eq-sem-acesso-t">Acesso não liberado</h1>
+    <p>Esta conta não está liberada na Área da Equipe. Se você trabalha na loja, peça para a administração liberar o seu e-mail.</p>
+    <button class="eq-btn eq-btn-sec" id="eq-sem-acesso-sair" type="button">Sair da conta</button>
+  </section>
+
+  <!-- o painel -->
+  <section class="eq-painel" id="eq-painel" hidden aria-label="Agenda da loja">
+    <div class="eq-abas" role="tablist" aria-label="Seções">
+      <button class="eq-aba" id="eq-aba-agenda" type="button" role="tab" aria-selected="true" aria-controls="eq-agenda">Agenda</button>
+      <button class="eq-aba" id="eq-aba-bloqueios" type="button" role="tab" aria-selected="false" aria-controls="eq-bloqueios" tabindex="-1">Bloqueios</button>
+    </div>
+    <p class="eq-msg" id="eq-msg" role="status" aria-live="polite" hidden></p>
+
+    <div id="eq-agenda" role="tabpanel" aria-labelledby="eq-aba-agenda">
+      <button class="eq-pendentes" id="eq-pendentes" type="button" hidden></button>
+      <div class="eq-cal" id="eq-cal">
+        <div class="eq-cal-topo">
+          <button class="eq-btn eq-btn-sec eq-btn-ico" id="eq-mes-ant" type="button" aria-label="Mês anterior">&lsaquo;</button>
+          <h2 class="eq-cal-mes" id="eq-cal-mes" aria-live="polite"></h2>
+          <button class="eq-btn eq-btn-sec eq-btn-ico" id="eq-mes-prox" type="button" aria-label="Próximo mês">&rsaquo;</button>
+        </div>
+        <div class="eq-cal-sem" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+        <div class="eq-cal-dias" id="eq-cal-dias" role="group" aria-label="Dias do mês"></div>
+        <p class="eq-cal-leg" aria-hidden="true"><i class="l-ag"></i>agendamento <i class="l-pe"></i>a confirmar <i class="l-bl"></i>dia bloqueado</p>
+      </div>
+
+      <div class="eq-dia" aria-labelledby="eq-dia-titulo">
+        <div class="eq-dia-topo">
+          <h2 id="eq-dia-titulo"></h2>
+          <button class="eq-btn eq-btn-sec eq-btn-peq" id="eq-atualizar" type="button">Atualizar</button>
+        </div>
+        <p class="eq-dia-aviso" id="eq-dia-aviso" hidden></p>
+        <div class="eq-dia-acoes" id="eq-dia-acoes">
+          <button class="eq-btn eq-btn-sec" id="eq-varios" type="button" hidden>Selecionar vários</button>
+          <button class="eq-btn eq-btn-sec" id="eq-bloq-dia" type="button" hidden>Bloquear dia inteiro</button>
+          <button class="eq-btn eq-btn-sec" id="eq-desbloq-dia" type="button" hidden>Desbloquear dia</button>
+        </div>
+        <ul class="eq-horas" id="eq-horas" aria-live="polite"></ul>
+      </div>
+      <div class="eq-sel" id="eq-sel" hidden>
+        <span id="eq-sel-txt">Nenhum horário selecionado</span>
+        <button class="eq-btn eq-btn-sec" id="eq-sel-cancelar" type="button">Cancelar</button>
+        <button class="eq-btn eq-btn-pri" id="eq-sel-bloquear" type="button" disabled>Bloquear selecionados</button>
+      </div>
+    </div>
+
+    <div id="eq-bloqueios" role="tabpanel" aria-labelledby="eq-aba-bloqueios" hidden>
+      <div class="eq-filtros" role="group" aria-label="Período">
+        <button class="eq-filtro" type="button" data-filtro="hoje" aria-pressed="false">Hoje</button>
+        <button class="eq-filtro" type="button" data-filtro="proximos" aria-pressed="true">Próximos dias</button>
+        <button class="eq-filtro" type="button" data-filtro="todos" aria-pressed="false">Todos</button>
+      </div>
+      <ul class="eq-lista" id="eq-lista-bloqueios" aria-live="polite"></ul>
+    </div>
+
+    <div class="eq-conta">
+      <button class="eq-link" id="eq-ativar-mfa" type="button" hidden>Proteger a conta com verificação em duas etapas</button>
+      <button class="eq-link" id="eq-testar-aviso" type="button" hidden>Testar o aviso do Telegram</button>
+    </div>
+  </section>
+</main>
+
+<!-- confirmação (bloquear, liberar, dia inteiro, cancelar) -->
+<dialog class="eq-dlg" id="eq-dlg" aria-labelledby="eq-dlg-titulo">
+  <form method="dialog" class="eq-dlg-caixa" id="eq-dlg-form" novalidate>
+    <h2 id="eq-dlg-titulo"></h2>
+    <dl class="eq-dlg-dados" id="eq-dlg-dados"></dl>
+    <p class="eq-dlg-texto" id="eq-dlg-texto" hidden></p>
+    <div class="eq-dlg-motivo" id="eq-dlg-motivo" hidden>
+      <label for="eq-dlg-sel">Motivo <span>(opcional)</span></label>
+      <select id="eq-dlg-sel"></select>
+      <label for="eq-dlg-det" id="eq-dlg-det-rot" hidden>Qual? <span>(opcional)</span></label>
+      <input id="eq-dlg-det" type="text" maxlength="60" autocomplete="off" hidden>
+    </div>
+    <p class="eq-dlg-aviso" id="eq-dlg-aviso" hidden></p>
+    <p class="eq-erro" id="eq-dlg-erro" role="alert" hidden></p>
+    <div class="eq-dlg-botoes">
+      <button class="eq-btn eq-btn-sec" id="eq-dlg-cancelar" type="button">Cancelar</button>
+      <button class="eq-btn eq-btn-pri" id="eq-dlg-ok" type="button"></button>
+    </div>
+  </form>
+</dialog>
+
+<!-- um agendamento (botão "Ver"): só os dados necessários para atender -->
+<dialog class="eq-dlg" id="eq-ver" aria-labelledby="eq-ver-titulo">
+  <div class="eq-dlg-caixa">
+    <h2 id="eq-ver-titulo">Agendamento</h2>
+    <p class="eq-tag" id="eq-ver-status"></p>
+    <dl class="eq-dlg-dados" id="eq-ver-dados"></dl>
+    <div class="eq-remarca" id="eq-ver-remarca" hidden>
+      <label for="eq-ver-data">Nova data</label>
+      <input id="eq-ver-data" type="date">
+      <label for="eq-ver-hora">Novo horário</label>
+      <select id="eq-ver-hora"></select>
+      <button class="eq-btn eq-btn-pri" id="eq-ver-remarca-ok" type="button">Salvar novo horário</button>
+    </div>
+    <p class="eq-erro" id="eq-ver-erro" role="alert" hidden></p>
+    <div class="eq-dlg-botoes eq-ver-botoes">
+      <button class="eq-btn eq-btn-pri" id="eq-ver-confirmar" type="button" hidden>Confirmar horário</button>
+      <a class="eq-btn eq-btn-sec" id="eq-ver-zap" href="#" target="_blank" rel="noopener noreferrer" hidden>WhatsApp</a>
+      <button class="eq-btn eq-btn-sec" id="eq-ver-remarcar" type="button">Remarcar</button>
+      <button class="eq-btn eq-btn-perigo" id="eq-ver-cancelar" type="button">Cancelar agendamento</button>
+      <button class="eq-btn eq-btn-sec" id="eq-ver-fechar" type="button">Fechar</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- segurar um horário livre enquanto conversa com o cliente -->
+<dialog class="eq-dlg" id="eq-seg" aria-labelledby="eq-seg-titulo">
+  <form method="dialog" class="eq-dlg-caixa" id="eq-seg-form" novalidate>
+    <h2 id="eq-seg-titulo">Segurar horário</h2>
+    <p class="eq-dlg-texto" id="eq-seg-quando"></p>
+    <fieldset class="eq-seg-tempo">
+      <legend>Por quanto tempo</legend>
+      <label><input type="radio" name="eq-seg-min" value="15"> 15 minutos</label>
+      <label><input type="radio" name="eq-seg-min" value="30" checked> 30 minutos</label>
+      <label><input type="radio" name="eq-seg-min" value="60"> 1 hora</label>
+      <label><input type="radio" name="eq-seg-min" value="120"> 2 horas</label>
+    </fieldset>
+    <label for="eq-seg-motivo">Motivo <span>(opcional)</span></label>
+    <input id="eq-seg-motivo" type="text" maxlength="120" placeholder="Cliente falando pelo WhatsApp" autocomplete="off">
+    <p class="eq-erro" id="eq-seg-erro" role="alert" hidden></p>
+    <div class="eq-dlg-botoes">
+      <button class="eq-btn eq-btn-sec" id="eq-seg-cancelar" type="button">Cancelar</button>
+      <button class="eq-btn eq-btn-pri" id="eq-seg-ok" type="button">Segurar</button>
+    </div>
+  </form>
+</dialog>
+</body>
+</html>

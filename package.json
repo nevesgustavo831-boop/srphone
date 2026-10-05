@@ -1,0 +1,30 @@
+{
+  "name": "srphone-site",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Site da SR Phone Macaé. HTML, CSS e JavaScript puros: funciona direto da pasta. O npm serve para conferir, gerar as páginas de produto, testar e rodar a função do assistente com IA (Netlify Functions).",
+  "type": "module",
+  "scripts": {
+    "start": "node ferramentas/servidor.mjs",
+    "build": "node ferramentas/build.mjs",
+    "lint": "node ferramentas/lint.mjs",
+    "links": "node ferramentas/links.mjs",
+    "test": "node ferramentas/build.mjs --conferir && node ferramentas/links.mjs && node ferramentas/testes-ia.mjs && node ferramentas/testes-entrega.mjs && node ferramentas/testes-agenda.mjs && node ferramentas/testes.mjs",
+    "test:banco": "bash ferramentas/testa-banco.sh",
+    "navegadores": "playwright install chromium",
+    "mascote:imagem": "node ferramentas/mascote/gera-estatico.mjs",
+    "test:ia": "node ferramentas/testes-ia.mjs",
+    "test:entrega": "node ferramentas/testes-entrega.mjs",
+    "mascote:molde": "node ferramentas/mascote/gera-molde.mjs",
+    "test:agenda": "node ferramentas/testes-agenda.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.129.0"
+  }
+}

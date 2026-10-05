@@ -1,0 +1,10 @@
+# Gerado por "npm run build" a partir de SITE_CONFIG.url (data/config.js).
+# Tudo o que é público pode ser indexado. As pastas de trabalho do projeto não vão para o visitante.
+User-agent: *
+Allow: /
+Disallow: /ferramentas/
+Disallow: /docs/
+Disallow: /supabase/
+Disallow: /funcionario/
+
+Sitemap: https://thunderous-genie-1cf391.netlify.app/sitemap.xml

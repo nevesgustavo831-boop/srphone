@@ -1,0 +1,22 @@
+SITE SR PHONE: LEIA PRIMEIRO
+============================
+
+O guia completo (instalar, testar, publicar, trocar preço, estoque, WhatsApp,
+endereço, domínio, Supabase, funcionários e Google Analytics) está no arquivo
+README.md, nesta mesma pasta.
+
+O que ainda falta a loja informar está no CHECKLIST-PRODUCAO.md.
+
+Agenda online, Área da Equipe (endereço /funcionario/), bloqueios de horário,
+verificação em duas etapas e segurança: SEGURANCA-E-PAINEL-FUNCIONARIO.md.
+
+O MAIS USADO NO DIA A DIA
+  Preço e estoque ....... data/products.js (explicação no topo do arquivo)
+  WhatsApp, endereço,
+  CNPJ, domínio ......... data/config.js
+  Depois de mudar ....... rode "npm run build" e publique a pasta de novo na Netlify
+                          (Deploys > arraste a pasta, sem a pasta node_modules).
+
+Sem Node.js instalado, ainda dá para trocar preço e estoque no data/products.js e
+publicar. Só as páginas próprias de cada produto (produto/<id>/) e o sitemap ficam
+com o texto antigo até alguém rodar o "npm run build".
